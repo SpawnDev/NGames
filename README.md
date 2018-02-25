@@ -1,1 +1,2 @@
-![Image](https://github.com/SpawnDev/NGames/blob/master/NGames%20Workflow.png)
+{% include inline_image.html
+file="NGames Workflow.png" alt="Workflow" %}
