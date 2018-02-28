@@ -23,8 +23,8 @@ public class NGames extends SmartContract
 		byte[] args3 = Helper.asByteArray((String) args[3]);
 		byte[] args4 = Helper.asByteArray((String) args[4]);
 		byte[] args5 = Helper.asByteArray((String) args[5]);
-        long currentTime = Blockchain.getHeader(Blockchain.height()).timestamp();
-        BigInteger blockTime = BigInteger.valueOf(currentTime);
+		int currentTime = Blockchain.getHeader(Blockchain.height()).timestamp(); //Long.valueOf(String.valueOf(int))
+        // BigInteger blockTime = BigInteger.valueOf(currentTime); // can't cast from long to int when compiling with neoj.exe
 		
     	BigInteger supply = BigInteger.valueOf(1000000);
         String name = "NGames Token";
@@ -38,7 +38,6 @@ public class NGames extends SmartContract
         if (operation == "name") return name; //OK
         if (operation == "symbol") return sym; //OK
         if (operation == "decimals") return decimals; //OK
-
         if (operation == "createGame") return CreateGame(invoker, args1, args2, args3, args4, args5); //OK
         if (operation == "joinGame") return JoinGame(invoker, args1, args2, args3, args4); // gameID, Tokens(buyIn+deposit), buyIn, deposit
         if (operation == "playerForfeit") return PlayerForfeit(invoker, args1); // gameID, Tokens(buyIn+deposit), buyIn, deposit
@@ -65,9 +64,9 @@ public class NGames extends SmartContract
     {
     	BigInteger forPrize = Helper.asBigInteger(buyIn);
     	BigInteger security = Helper.asBigInteger(deposit);
-        long currentTime = Blockchain.getHeader(Blockchain.height()).timestamp();
+    	long currentTime = Long.valueOf(String.valueOf(Blockchain.getHeader(Blockchain.height()).timestamp())).longValue();
     	
-    	if (Helper.asBigInteger(tokens) == forPrize.add(security))
+    	if (Helper.asBigInteger(tokens).equals(forPrize.add(security)))
     	{
     		if (BigInteger.valueOf(currentTime).compareTo(Helper.asBigInteger(Storage.get(Storage.currentContext(), "expiryDate"))) < 0)
     		{
